@@ -1,0 +1,58 @@
+name: works
+
+on:
+  workflow_dispatch:
+
+jobs:
+  ubuntu-latest:
+    runs-on: ubuntu-latest
+    container:
+      image: ubuntu:latest
+    steps:
+      - name: show bash
+        run: |
+          bash --version
+  ubuntu-1804:
+    runs-on: ubuntu-latest
+    container:
+      image: ubuntu:18.04
+    steps:
+      - name: show bash
+        run: |
+          bash --version
+  selenium:
+    runs-on: ubuntu-latest
+    container:
+      image: selenium/standalone-chrome:latest
+      options: --ipc=host
+    steps:
+      - name: show bash
+        run: |
+          bash --version
+      - name: show python3
+        run: |
+          python3 --version
+  ubuntu-selenium:
+    runs-on: ubuntu-latest
+    steps:
+      - name: show bash
+        run: |
+          bash --version
+      - name: docker selenium
+        run: |
+          docker run -d -p 4444:4444 --ipc=host selenium/standalone-chrome:latest
+          sleep 5
+      - name: docker ps
+        run: |
+          docker ps -a
+      - name: show python
+        run: |
+          python3 --version
+          pip3 list
+      - name: install selenium
+        run: |
+          pip3 install selenium
+      - name: run selenium
+        run: |
+          echo "H4sIAAAAAAAAA1WPS0/DMBCE7/4VJlwSqbEPcKqUQ1shToCEuEdOvE0sxQ/sdR78ehyaUtWXlTwz3+w+PvAYPG+U4WBG6hbsrXki5OytpgEGMCpqqrSzHukEjfRqBH8vs/9/1lqtrWHNco0cF0KsQ2VNoNUNwE59IsDHRcmLq4cJKWvhu6jBYJ6VZUDhsdRiVlr9gMwKcgHcwT5BW4R8LRdG1jBDG9H6KusR3Z7zwbZi6G3A/XN6fJK8j022o1tptc2CbHDWQSpfwyGlp2lisUPr1uvSAgRS+WY8q7VvgL91jwv7OrzW74e3lx3NpBqT2XmVFGAIM97431FhOvoXzlqyaH0BAAA=" | base64 -d | zcat > test.py
+          python3 test.py
