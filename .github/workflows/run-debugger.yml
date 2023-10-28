@@ -1,0 +1,18 @@
+name: run-debugger
+
+on:
+  workflow_dispatch:
+
+jobs:
+  debugger-check:
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/${{ github.actor }}/private-debug-docker/debugger:latest
+      options: --ipc=host
+    steps:
+      - name: link to bastion
+        run: link2bastion.sh
+      - name: wait 10min
+        run: sleep 600
+      - name: check
+        run: ss -ntp
