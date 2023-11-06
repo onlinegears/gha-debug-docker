@@ -1,0 +1,23 @@
+name: run-pod-batch-a
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run-batch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Checkout tools
+        uses: actions/checkout@v4
+        with:
+          repository: onlinegears/private-scripts-test
+          path: ./scripts
+          ssh-key: ${{ secrets.PRIVATE_SCRIPTS_TEST }}
+      - name: Prepare
+        run: |
+          ./scripts/pods-system/00_prepare.sh
+      - name: Run
+        run: |
+          ./scripts/pods-system/10_run.sh
