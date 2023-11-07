@@ -6,6 +6,8 @@ on:
 jobs:
   run-batch:
     runs-on: ubuntu-latest
+    env:
+      name: batch
     steps:
       - name: Checkout
         uses: actions/checkout@v4
