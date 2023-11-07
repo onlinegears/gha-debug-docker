@@ -2,12 +2,20 @@ name: run-pod-batch-a
 
 on:
   workflow_dispatch:
+    inputs:
+      num:
+        type: choice
+        options:
+          - 360
+          - 720
+          - 1440
 
 jobs:
   run-batch:
     runs-on: ubuntu-latest
     env:
       name: batch
+      num: ${{ github.event.inputs.num }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
