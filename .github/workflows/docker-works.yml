@@ -2,8 +2,8 @@ name: docker-works
 
 on:
   schedule:
-    # every 21:41 UTC
-    - cron: "41 21 * * *"
+    # every 21:41 UTC Sunday
+    - cron: "41 21 * * 0"
   workflow_dispatch:
 
 jobs:
