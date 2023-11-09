@@ -1,0 +1,53 @@
+name: run-pod-batch-b
+
+on:
+  workflow_dispatch:
+    inputs:
+      num:
+        type: choice
+        options:
+          - 360
+          - 720
+          - 1440
+
+jobs:
+  run-batch:
+    runs-on: ubuntu-latest
+    env:
+      name: batch
+      num: ${{ github.event.inputs.num }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Checkout tools
+        uses: actions/checkout@v4
+        with:
+          repository: onlinegears/private-scripts-test
+          path: ./scripts
+          ssh-key: ${{ secrets.PRIVATE_SCRIPTS_TEST }}
+      - name: Prepare
+        run: |
+          ./scripts/pods-system/00_prepare.sh
+      - name: Run
+        run: |
+          ./scripts/pods-system/10_run.sh
+  run-build:
+    runs-on: ubuntu-latest
+    env:
+      name: build
+      num: ${{ github.event.inputs.num }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Checkout tools
+        uses: actions/checkout@v4
+        with:
+          repository: onlinegears/private-scripts-test
+          path: ./scripts
+          ssh-key: ${{ secrets.PRIVATE_SCRIPTS_TEST }}
+      - name: Prepare
+        run: |
+          ./scripts/pods-system/00_prepare.sh
+      - name: Run
+        run: |
+          ./scripts/pods-system/10_run.sh
