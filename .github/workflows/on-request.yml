@@ -1,0 +1,27 @@
+name: on-request
+
+on:
+  push:
+    branches:
+      - 'requests/**'
+  workflow_dispatch:
+
+jobs:
+  on-request:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: show info
+        run: |
+          bash --version
+          echo ${{ github.event_name }}
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: remove requests branches
+        run: |
+          git remote update
+          git branch -r --list 'origin/requests/**' | cut -c 10- | while read b; do
+            echo $b
+            git push origin --delete $b
+          done
